@@ -71,7 +71,7 @@ async function getFolder(request, reply) {
                     // Ne pas inclure le mot de passe ici
                 }
             },
-            Article: true // Les articles liés au dossier
+            article: true // Les articles liés au dossier
         }
     })
     return { folders: folders }

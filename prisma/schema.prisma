@@ -25,7 +25,7 @@ model Folder {
   user    User   @relation(fields: [idUser], references: [id]) // Déclare la relation
 
   @@unique([idUser, name]) // Contrainte : combinaison unique idUser + name
-  Article Article[]
+  article Article[]
 }
 
 model Article {
