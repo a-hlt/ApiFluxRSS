@@ -1,6 +1,6 @@
 // user.router.js
 
-import { createUser, getUsers } from "../services/user.service.js";
+import { createUser, getUsers, updateUser } from "../services/user.service.js";
 
 /**
  * Encapsulates the routes
@@ -8,9 +8,14 @@ import { createUser, getUsers } from "../services/user.service.js";
  * @param {Object} options plugin options, refer to https://fastify.dev/docs/latest/Reference/Plugins/#plugin-options
  */
 async function userRoute(fastify, options) {
+    //create Users
     fastify.post('/users', createUser)
 
+    //get all users
     fastify.get('/users', getUsers)
+
+    //update name User
+    fastify.patch('/users/:id', updateUser);
 }
 
 //ESM

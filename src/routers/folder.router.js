@@ -1,4 +1,4 @@
-import { createFolder, getFolder } from "../services/folder.service.js";
+import { createFolder, getFolder, updateFolder } from "../services/folder.service.js";
 
 /**
  * Encapsulates the routes
@@ -6,9 +6,14 @@ import { createFolder, getFolder } from "../services/folder.service.js";
  * @param {Object} options plugin options, refer to https://fastify.dev/docs/latest/Reference/Plugins/#plugin-options
  */
 async function folderRoute(fastify, options) {
+    //create Folders
     fastify.post('/folders', createFolder)
 
+    // get all folders
     fastify.get('/folders', getFolder)
+
+    //update name folder
+    fastify.patch('/folders/:id', updateFolder);
 }
 
 //ESM
