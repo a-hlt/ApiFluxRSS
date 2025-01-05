@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String? @unique
+  password String? 
+  folders  Folder[] // Relation 1-N : un utilisateur peut avoir plusieurs dossiers
+
+}
+model Folder {
+  id    Int     @id @default(autoincrement())
+  name  String  
+  idUser  Int    // Clé étrangère vers User
+  user    User   @relation(fields: [idUser], references: [id]) // Déclare la relation
+
+  @@unique([idUser, name]) // Contrainte : combinaison unique idUser + name
+  Article Article[]
+}
+
+model Article {
+  id    Int     @id @default(autoincrement())
+  name  String
+  resume String
+  link String  
+  idFolder  Int    // Clé étrangère vers Folder
+  folder   Folder   @relation(fields: [idFolder], references: [id]) // Déclare la relation
+
+  @@unique([idFolder, name]) // Contrainte unique pour idFolder + name
+}
