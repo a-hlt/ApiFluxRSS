@@ -21,8 +21,52 @@ Une fois le projet cloné, exécutez la commande suivante pour installer les dé
 npm install
 ```
 
+## Configuration du fichier `.env`
+
+Avant de lancer le projet, créez un fichier `.env` à la racine du projet avec les variables d'environnement suivantes :
+
+```env
+DATABASE_URL="file:../dev.db" # Chemin vers la base de données SQLite (celle que j'ai choisi) Important à faire pour Prisma.
+SECRET_KEY="votre Clés secrete" # Clé secrète pour la signature des tokens JWT.
+BCRYPT_SALT_ROUNDS=10 # Nombre de tours pour le hachage des mots de passe (10 est un bon compromis entre sécurité et performance).
+```
+
+### Explications des variables :
+- **`DATABASE_URL`** : Définit l'URL de connexion à la base de données. Ici, nous utilisons SQLite avec un fichier nommé `dev.db`.
+- **`SECRET_KEY`** : Clé secrète utilisée pour signer et vérifier les tokens JWT, nécessaire pour les fonctionnalités d'authentification.
+- **`BCRYPT_SALT_ROUNDS`** : Détermine la complexité du hachage des mots de passe avec bcrypt. Un nombre plus élevé augmente la sécurité, mais ralentit les performances.
+
+### Générez les fichiers Prisma nécessaires :
+Exécutez la commande suivante pour générer le client Prisma à partir de votre schéma :
+
+```bash
+npx prisma generate
+```
+
+### Créez la base de données et appliquez les migrations :
+Pour synchroniser votre base de données avec le schéma défini dans `prisma/schema.prisma` :
+
+```bash
+npx prisma db push
+```
+
+Cela crée la base de données et les tables définies dans votre fichier `schema.prisma`.
+
 ## Lancer le serveur
 Pour démarrer le serveur en mode développement :
 ```bash
 npm run dev
 ```
+
+## Tests avec Swagger et Postman
+
+### Swagger
+Dans Swagger, le token JWT n'est pas stocké automatiquement. Cela signifie que vous ne pouvez pas effectuer de tests nécessitant une authentification directement depuis Swagger. 
+
+### Postman
+Pour effectuer vos tests d'API, utilisez **Postman**. Voici les étapes à suivre :
+
+1. **Créer un environnement** :
+   - A gauche dans postman sélectionnez "Environments" puis new.
+
+Un export Postman en json est dans le  projet, est conserve certaines options et réglage.
