@@ -101,7 +101,30 @@ async function userRoute(fastify, options) {
     });
 
     fastify.post('/login', {
-        schema: {},
+        schema: {
+            description: 'Connexion utilisateur',
+            tags: ['Users'],
+            summary: 'Permet de connecter un utilisateur existant',
+            body: {
+                type: 'object',
+                required: ['name', 'password'],
+                properties: {
+                    name: { type: 'string' },
+                    password: { type: 'string' },
+                },
+            },
+            response: {
+                200: {
+                    description: 'Connexion réussie',
+                    type: 'object',
+                    properties: {
+                        success: { type: 'boolean' },
+                        message: { type: 'string' },
+                        token: { type: 'string' },
+                    },
+                },
+            },
+        },
         handler: loginUser,
     })
 
