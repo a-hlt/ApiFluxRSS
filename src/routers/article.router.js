@@ -6,9 +6,17 @@ import { createArticle, getArticle } from "../services/article.service.js";
  * @param {Object} options plugin options, refer to https://fastify.dev/docs/latest/Reference/Plugins/#plugin-options
  */
 async function articleRoute(fastify, options) {
-    fastify.post('/articles', createArticle)
+    fastify.post('/articles', {
+        schema: {},
+        onRequest: [fastify.authenticate],
+        handler: createArticle
+    })
 
-    fastify.get('/articles', getArticle)
+    fastify.get('/articles', {
+        schema: {},
+        onRequest: [fastify.authenticate],
+        handler: getArticle
+    })
 }
 
 //ESM

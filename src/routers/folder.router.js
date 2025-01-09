@@ -7,7 +7,11 @@ import { createFolder, getFolder, updateFolder } from "../services/folder.servic
  */
 async function folderRoute(fastify, options) {
     //create Folders
-    fastify.post('/folders', createFolder)
+    fastify.post('/folders', {
+        schema: {},
+        onRequest: [fastify.authenticate],
+        handler: createFolder
+    })
 
     // get all folders
     fastify.get('/folders', getFolder)

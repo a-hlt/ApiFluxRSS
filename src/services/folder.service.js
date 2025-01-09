@@ -1,26 +1,23 @@
 async function createFolder(request, reply) {
-    const { name, username } = request.query;
+    const { name } = request.body;
 
-    // Trouve l'username de user
-    const entity = await request.server.prisma.user.findUnique({
-        where: {
-            name: username
-        }
-    })
+    const { id } = request.user
 
     const folder = await request.server.prisma.folder.create({
         data: {
             name: name,
-            idUser: entity.id //id par rapport à l'username
+            idUser: id //id par rapport à l'username
         }
     })
-    return { folder: folder }
+
+    return reply.status(200).send(folder)
 }
 
 async function updateFolder(request, reply) {
 
     // ID du dossier depuis les paramètres
-    const { id } = request.params;
+    let { id } = request.params;
+    id = parseInt(id, 10)
     // Nouveau nom depuis le corps de la requête (body postman)
     const { newName } = request.body;
 
@@ -29,8 +26,8 @@ async function updateFolder(request, reply) {
     }
 
     // Vérification si le dossier existe
-    const folder = await request.server.prisma.folder.findUnique({
-        where: { id: parseInt(id, 10) },
+    const folder = await request.server.prisma.folder.findFirst({
+        where: { id },
     });
 
     if (!folder) {
@@ -50,11 +47,11 @@ async function updateFolder(request, reply) {
     }
 
     const updatedFolder = await request.server.prisma.folder.update({
-        where: { id: parseInt(id, 10) },
+        where: { id },
         data: { name: newName },
     });
 
-    return { folder: updatedFolder };
+    return reply.status(200).send(updatedFolder);
 }
 
 
@@ -74,7 +71,8 @@ async function getFolder(request, reply) {
             article: true // Les articles liés au dossier
         }
     })
-    return { folders: folders }
+
+    return reply.status(200).send(folders);
 }
 
 
