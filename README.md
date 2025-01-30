@@ -115,5 +115,7 @@ Faire les variables de db dans le env et schema.prisma.
 lancer le docker compose :
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
+
+--build, car au debut je demande un build : . (pour les modifications dans l'image)
