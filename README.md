@@ -103,3 +103,17 @@ docker run -p 3000:3000 --name api_flux_container api_flux_start
 le -p est pour mapper le port de notre machine à celle du container
 ---name = nom du container
 api_flux_start = nom de l'image
+
+## Docker Compose
+
+Dans docker compose build . signifie qu'il build le dockerfile qu'il trouve à partir de l'endroit ou il est. Renitialise l'image pour le docker compose.
+
+pas de volume / lien sur les fichier prisma, il doit le générate depuis l'image de base.
+
+Faire les variables de db dans le env et schema.prisma.
+
+lancer le docker compose :
+
+```bash
+docker compose up -d
+```

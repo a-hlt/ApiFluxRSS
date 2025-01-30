@@ -1,0 +1,33 @@
+services:
+  api:
+    build: .
+    container_name: api_flux
+    environment:
+      - DATABASE_URL=${DATABASE_URL} # Référence à la variable d'environnement
+    ports:
+      - "3000:3000" # Mapping des ports pour l'API
+    depends_on:
+      - mysql
+    networks:
+      - api_network
+
+  mysql:
+    image: mysql:8
+    container_name: fluxdb
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Référence à la variable d'environnement
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # Référence à la variable d'environnement
+    ports:
+      - "3306:3306" # Port pour se connecter à MySQL
+    networks:
+      - api_network
+    volumes:
+      - mysql_data:/var/lib/mysql # Persisting data
+
+networks:
+  api_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local

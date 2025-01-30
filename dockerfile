@@ -13,6 +13,8 @@ RUN npm install
 # Copier le reste du projet
 COPY . .
 
+RUN npx prisma generate
+
 # Exposer le port de l'application
 EXPOSE 3000
 
